@@ -13,6 +13,8 @@
 #
 ##############################################################################
 
+PREFIX=/usr/local
+
 #### Common compiler flags.
 #### Flags given here are not intended to be overridden, but you can add more
 #### by defining CFLAGS in the environment or on the 'make' command line.
@@ -210,18 +212,19 @@ DEFAULT_TARGETS += gunzip$(PROG_SUFFIX)
 all:$(DEFAULT_TARGETS)
 
 install:all
-	install -Dm644 -t $(DESTDIR)/usr/lib $(STATIC_LIB)
-	install -Dm755 -t $(DESTDIR)/usr/lib $(SHARED_LIB)
-	install -Dm644 -t $(DESTDIR)/usr/include libdeflate.h
-	install -Dm755 gzip $(DESTDIR)/usr/bin/libdeflate-gzip
-	ln -f $(DESTDIR)/usr/bin/libdeflate-gzip $(DESTDIR)/usr/bin/libdeflate-gunzip
+	install -d $(PREFIX)/lib $(PREFIX)/include $(PREFIX)/bin
+	install -m644 $(STATIC_LIB) $(PREFIX)/lib
+	install -m755 $(SHARED_LIB) $(PREFIX)/lib
+	install -m644 libdeflate.h $(PREFIX)/include
+	install -m755 gzip $(PREFIX)/bin/libdeflate-gzip
+	ln -f $(PREFIX)/bin/libdeflate-gzip $(PREFIX)/bin/libdeflate-gunzip
 
 uninstall:
-	rm -f $(DESTDIR)/usr/lib/$(STATIC_LIB) \
-		$(DESTDIR)/usr/lib/$(SHARED_LIB) \
-		$(DESTDIR)/usr/include/libdeflate.h \
-		$(DESTDIR)/usr/bin/libdeflate-gzip \
-		$(DESTDIR)/usr/bin/libdeflate-gunzip
+	rm -f $(PREFIX)/lib/$(STATIC_LIB) \
+		$(PREFIX)/lib/$(SHARED_LIB) \
+		$(PREFIX)/include/libdeflate.h \
+		$(PREFIX)/bin/libdeflate-gzip \
+		$(PREFIX)/bin/libdeflate-gunzip
 
 test_programs:$(TEST_PROGRAMS)
 
