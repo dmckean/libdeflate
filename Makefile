@@ -13,6 +13,8 @@
 #
 ##############################################################################
 
+PREFIX=/usr/local
+
 #### Common compiler flags.
 #### Flags given here are not intended to be overridden, but you can add more
 #### by defining CFLAGS in the environment or on the 'make' command line.
@@ -209,6 +211,21 @@ DEFAULT_TARGETS += gunzip$(PROG_SUFFIX)
 
 all:$(DEFAULT_TARGETS)
 
+install:all
+	install -d $(PREFIX)/lib $(PREFIX)/include $(PREFIX)/bin
+	install -m644 $(STATIC_LIB) $(PREFIX)/lib
+	install -m755 $(SHARED_LIB) $(PREFIX)/lib
+	install -m644 libdeflate.h $(PREFIX)/include
+	install -m755 gzip $(PREFIX)/bin/libdeflate-gzip
+	ln -f $(PREFIX)/bin/libdeflate-gzip $(PREFIX)/bin/libdeflate-gunzip
+
+uninstall:
+	rm -f $(PREFIX)/lib/$(STATIC_LIB) \
+		$(PREFIX)/lib/$(SHARED_LIB) \
+		$(PREFIX)/include/libdeflate.h \
+		$(PREFIX)/bin/libdeflate-gzip \
+		$(PREFIX)/bin/libdeflate-gunzip
+
 test_programs:$(TEST_PROGRAMS)
 
 help:
@@ -233,6 +250,6 @@ realclean: clean
 
 FORCE:
 
-.PHONY: all test_programs help clean realclean
+.PHONY: all install uninstall test_programs help clean realclean
 
 .DEFAULT_GOAL = all

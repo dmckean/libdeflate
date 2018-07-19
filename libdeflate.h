@@ -9,16 +9,16 @@
 extern "C" {
 #endif
 
-#define LIBDEFLATE_VERSION_MAJOR	0
-#define LIBDEFLATE_VERSION_MINOR	8
-#define LIBDEFLATE_VERSION_STRING	"0.8"
+#define LIBDEFLATE_VERSION_MAJOR	1
+#define LIBDEFLATE_VERSION_MINOR	0
+#define LIBDEFLATE_VERSION_STRING	"1.0"
 
 #include <stddef.h>
 #include <stdint.h>
 
 /*
  * On Windows, if you want to link to the DLL version of libdeflate, then
- * #define LIBDEFLATE_DLL.
+ * #define LIBDEFLATE_DLL.  Note that the calling convention is cdecl.
  */
 #ifdef LIBDEFLATE_DLL
 #  ifdef BUILDING_LIBDEFLATE
