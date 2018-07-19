@@ -130,7 +130,7 @@ DEFAULT_TARGETS += $(STATIC_LIB)
 
 # Create shared library
 $(SHARED_LIB):$(SHARED_LIB_OBJ)
-	$(QUIET_CCLD) $(CC) -o $@ $(LDFLAGS) $(LIB_CFLAGS) -shared $+
+	$(QUIET_CCLD) $(CC) -dynamiclib -install_name "@rpath/$@" -o $@ $(LDFLAGS) $(LIB_CFLAGS) $+
 
 DEFAULT_TARGETS += $(SHARED_LIB)
 
